@@ -14,7 +14,7 @@ $('#add-device').on('click', function() {
     const name = $('#name').val();
     devices.push({ user: user, name: name }); 
     localStorage.setItem('devices', JSON.stringify(devices));
-    location.href = 'DeviceList.html';
+    location.href = 'device-list.html';
     });
     $('#send-command').on('click', function() { 
         const command = $('#command').val(); 

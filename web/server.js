@@ -12,5 +12,12 @@ app.get('/send-command', (req, res) => { res.sendFile(`${base}/send-command.html
 });
 app.get('/about', (req, res) => { res.sendFile(`${base}/about-me.html`);
 });
+app.get('/registration', (req, res) => { res.sendFile(`${base}/registration.html`);
+});
+app.get('/login', (req, res) => { res.sendFile(`${base}/login.html`);
+});
+app.get('/device-history', (req, res) => { res.sendFile(`${base}/device-history.html`);
+});
+
 app.listen(port, () => { console.log(`listening on port ${port}`);
 });

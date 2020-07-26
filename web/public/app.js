@@ -77,3 +77,7 @@ $('#login').on('click', function() {
     }
 });   
   
+const logout = () => { 
+  localStorage.removeItem('isAuthenticated'); 
+  location.href = '/login';
+}

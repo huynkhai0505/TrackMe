@@ -15,10 +15,13 @@ $('#add-device').on('click', function() {
     const user = $('#user').val();
     const name = $('#name').val();
     devices.push({ user: user, name: name }); 
-    localStorage.setItem('devices', JSON.stringify(devices));
-    location.href = '/';
-    });
+    console.log(devices);
+    
     $('#send-command').on('click', function() { 
         const command = $('#command').val(); 
         console.log(`command is: ${command}`);
 });
+
+localStorage.setItem('devices', JSON.stringify(devices));
+    location.href = '/';
+    });

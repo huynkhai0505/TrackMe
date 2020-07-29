@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Device = require('./models/device');
 
-mongoose.connect('mongodb+srv://huynhkhai1203:Quynhanh0505@cluster0.dyvnr.mongodb.net/test?retryWrites=true&w=majority'
-    , {useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URL, { 
+useNewUrlParser: true, useUnifiedTopology: true });
 
 
 

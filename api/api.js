@@ -4,6 +4,8 @@ mongoose.connect('mongodb+srv://<dbuser>: <URLENCODEDdbpassword>@cluster0.dyvnr.
     useNewUrlParser: true, useUnifiedTopology: true 
 });
 
+const Device = require('./models/device');
+
 const express = require('express');
 const app = express();
 const port = 5000;

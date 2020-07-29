@@ -1,3 +1,9 @@
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb+srv://<dbuser>: <URLENCODEDdbpassword>@cluster0.dyvnr.mongodb.net', {
+    useNewUrlParser: true, useUnifiedTopology: true 
+});
+
 const express = require('express');
 const app = express();
 const port = 5000;

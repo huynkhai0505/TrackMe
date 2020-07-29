@@ -23,6 +23,10 @@ app.get('/api/devices', (req, res) => { Device.find({}, (err, devices) => {
     }
 }); 
 });
+app.use(function(req, res, next) { 
+    res.header("Access-Control-Allow-Origin", "*"); 
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"); 
+    next(); });
 
 app.post('/api/devices', (req, res) => { 
     const { name, user, sensorData } = req.body; 
@@ -40,10 +44,7 @@ app.post('/api/devices', (req, res) => {
 app.post('/api/send-command', (req, res) => { console.log(req.body);
 });
 
-app.use(function(req, res, next) { 
-    res.header("Access-Control-Allow-Origin", "*"); 
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"); 
-    next(); });
+
 
 app.listen(port, () => { console.log(`listening on port ${port}`);
 });

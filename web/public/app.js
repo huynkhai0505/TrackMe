@@ -4,7 +4,7 @@ $('#navbar').load('navbar.html');
  const response =$.get(`${API_URL}/devices`) .then(response => {
   response.forEach(device => { $('#devices tbody').append(`
   <tr> 
-  <td>{device.user}</td> 
+  <td>${device.user}</td> 
   <td>${device.name}</td>
   </tr>`
   ); 

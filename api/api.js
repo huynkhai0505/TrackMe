@@ -24,7 +24,20 @@ app.get('/api/devices', (req, res) => { Device.find({}, (err, devices) => {
 }); 
 });
 
-app.post('/api/devices', (req, res) => { console.log(req.body);
+app.post('/api/devices', (req, res) => { 
+    const { name, user, sensorData } = req.body; 
+    const newDevice = new Device({
+    name,
+    user,
+    sensorData
+});
+    newDevice.save(err => {
+    return err
+    ? res.send(err)
+    : res.send('successfully added device and data');
+}); });
+
+app.post('/api/send-command', (req, res) => { console.log(req.body);
 });
 
 app.listen(port, () => { console.log(`listening on port ${port}`);

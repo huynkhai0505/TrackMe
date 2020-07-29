@@ -12,5 +12,11 @@ const port = 5000;
 
 app.get('/api/test', (req, res) => { res.send('The API is working!');
 });
+
+app.get('/api/devices', (req, res) => { 
+    Device.find({}, (err, devices) => {
+    console.log(devices);
+}); 
+});
 app.listen(port, () => { console.log(`listening on port ${port}`);
 });

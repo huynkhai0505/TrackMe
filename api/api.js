@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const port = process.env.PORT || 5000;
 const Device = require('./models/device');
+const User = require('./models/user')
 
 app.use(function(req, res, next) { 
     res.header("Access-Control-Allow-Origin", "*"); 
@@ -81,6 +82,87 @@ return err
 
 app.post('/api/send-command', (req, res) => { 
     console.log(req.body);
+});
+
+app.post('/api/authenticate', (req, res)=> {
+    const { name, password } = req.body;
+    User.findOneOne({
+        name,
+    })
+    .then((user) => {
+        if(!user) {
+            return res.json({
+                success: false,
+                message: "User not existed",
+
+            });
+        }
+        if(user.password !== req.body.password){
+            return res.json({
+                success: false,
+                message: "Password is not correct",
+            });
+        }
+        else{
+            return res.json({
+                success: true,
+                message: "Authenticated Successfully",
+                isAdimin = user.isAdmin,
+
+            });
+        }
+    })
+    .catch((error)=> res.send(error));
+
+});
+
+app.post('/api/registration', (req, res)=> {
+    const { name, password, isAdimin } = req.body;
+    User.findOneOne({
+        name,
+    })
+    .then((user) => {
+        if(user) {
+            return res.json({
+                success: false,
+                message: "User has been registered",
+
+            });
+        }
+        
+        else{
+            const newUser = new User({
+                name: user,
+                password,
+                isAdmin
+            });
+            newUser.save(err => { return err
+                ? res.send(err) : res.json({
+                    success: true,
+                    message: 'Created new user'
+                });
+            });
+        }
+    })
+    .catch((error)=> res.send(error));
+});
+
+app.get('/api/devices/:deviceId/device-history', (req, res) => { 
+    const { deviceId } = req.params;
+    Device.findOne({"_id": deviceId }, (err, devices) => {
+    const { sensorData } = devices;
+    return err
+    ? res.send(err)
+    : res.send(sensorData); });
+});
+
+app.get('/api/users/:user/devices', (req, res) => { 
+    const { user } = req.params;
+    Device.find({ "user": user }, (err, devices) => {
+    return err
+    ? res.send(err)
+    : res.send(devices);
+}); 
 });
 
 app.use(express.static(`${__dirname}/public/generated-docs`));

@@ -1,18 +1,24 @@
+
+
+
+
+
+const express = require('express');
 const mongoose = require('mongoose');
+const Device = require('./models/device');
+const User = require('./models/user');
 
 mongoose.connect(process.env.MONGO_URL, { 
 useNewUrlParser: true, useUnifiedTopology: true });
 
 
-
-const express = require('express');
 const app = express();
 const bodyParser = require('body-parser'); 
+const { findOneAndUpdate } = require("./models/user")
 app.use(bodyParser.urlencoded({ extended: false })) 
 app.use(bodyParser.json())
+
 const port = process.env.PORT || 5000;
-const Device = require('./models/device');
-const User = require('./models/user')
 
 app.use(function(req, res, next) { 
     res.header("Access-Control-Allow-Origin", "*"); 
@@ -107,7 +113,7 @@ app.post('/api/authenticate', (req, res)=> {
             return res.json({
                 success: true,
                 message: "Authenticated Successfully",
-                isAdimin = user.isAdmin,
+                isAdmin = user.isAdmin,
 
             });
         }

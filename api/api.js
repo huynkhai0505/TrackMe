@@ -1,31 +1,32 @@
 
-
-
-
-
 const express = require('express');
 const mongoose = require('mongoose');
 const Device = require('./models/device');
 const User = require('./models/user');
 
 mongoose.connect(process.env.MONGO_URL, { 
-useNewUrlParser: true, useUnifiedTopology: true });
+useNewUrlParser: true, 
+useUnifiedTopology: true 
+});
 
 
 const app = express();
+
 const bodyParser = require('body-parser'); 
 const { findOneAndUpdate } = require("./models/user")
 app.use(bodyParser.urlencoded({ extended: false })) 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 const port = process.env.PORT || 5000;
 
 app.use(function(req, res, next) { 
     res.header("Access-Control-Allow-Origin", "*"); 
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next(); });
+    next(); 
+});
 
-app.get('/api/test', (req, res) => { res.send('The API is working!');
+app.get('/api/test', (req, res) => { 
+    res.send('The API is working!');
 });
 
 /**
@@ -61,7 +62,8 @@ app.get('/api/test', (req, res) => { res.send('The API is working!');
 * "User does not exist" *}
 */
 
-app.get('/api/devices', (req, res) => { Device.find({}, (err, devices) => {
+app.get('/api/devices', (req, res) => { 
+    Device.find({}, (err, devices) => {
     if (err == true) { return res.send(err);
     } else {
     return res.send(devices);
@@ -78,7 +80,7 @@ app.post('/api/devices', (req, res) => {
     const newDevice = new Device({
     name,
     user,
-    sensorData
+    sensorData,
 });
 newDevice.save(err => {
 return err
@@ -92,7 +94,7 @@ app.post('/api/send-command', (req, res) => {
 
 app.post('/api/authenticate', (req, res)=> {
     const { name, password } = req.body;
-    User.findOneOne({
+    User.findOne({
         name,
     })
     .then((user) => {
@@ -100,7 +102,6 @@ app.post('/api/authenticate', (req, res)=> {
             return res.json({
                 success: false,
                 message: "User not existed",
-
             });
         }
         if(user.password !== req.body.password){
@@ -113,8 +114,7 @@ app.post('/api/authenticate', (req, res)=> {
             return res.json({
                 success: true,
                 message: "Authenticated Successfully",
-                isAdmin = user.isAdmin,
-
+                isAdmin: user.isAdmin,
             });
         }
     })
@@ -123,8 +123,8 @@ app.post('/api/authenticate', (req, res)=> {
 });
 
 app.post('/api/registration', (req, res)=> {
-    const { name, password, isAdimin } = req.body;
-    User.findOneOne({
+    const { name, password, isAdmin } = req.body;
+    User.findOne({
         name,
     })
     .then((user) => {
@@ -138,12 +138,14 @@ app.post('/api/registration', (req, res)=> {
         
         else{
             const newUser = new User({
-                name: user,
-                password,
-                isAdmin
+                name: req.body.name,
+                password: req.body.password,
+                isAdmin: req.body.isAdmin,
             });
-            newUser.save(err => { return err
-                ? res.send(err) : res.json({
+            newUser.save((err) => { 
+                return err
+                ? res.send(err) 
+                : res.json({
                     success: true,
                     message: 'Created new user'
                 });
@@ -155,16 +157,17 @@ app.post('/api/registration', (req, res)=> {
 
 app.get('/api/devices/:deviceId/device-history', (req, res) => { 
     const { deviceId } = req.params;
-    Device.findOne({"_id": deviceId }, (err, devices) => {
+    Device.findOne({_id: deviceId }, (err, devices) => {
     const { sensorData } = devices;
     return err
     ? res.send(err)
-    : res.send(sensorData); });
+    : res.send(sensorData); 
+    });
 });
 
 app.get('/api/users/:user/devices', (req, res) => { 
     const { user } = req.params;
-    Device.find({ "user": user }, (err, devices) => {
+    Device.find({ user: user }, (err, devices) => {
     return err
     ? res.send(err)
     : res.send(devices);

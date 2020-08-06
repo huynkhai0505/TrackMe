@@ -3,18 +3,22 @@ $('#navbar').load('navbar.html');
  const API_URL = 'http://localhost:5000/api';
 
  const currentUser = localStorage.getItem('user');
-if (currentUser) { $.get(`${API_URL}/users/${currentUser}/devices`) 
-.then(response => {
-response.forEach((device) => { $('#devices tbody').append(`
+if (currentUser) { 
+  $.get(`${API_URL}/users/${currentUser}/devices`) 
+.then((response) => {
+response.forEach((device) => { 
+  $('#devices tbody').append(`
   <tr data-device-id=${device._id}> 
   <td>${device.user}</td> 
   <td>${device.name}</td>
   </tr>`); 
 });
+
 $('#devices tbody tr').on('click', (e) => {
   const deviceId = e.currentTarget.getAttribute('data-device-id'); 
-  $.get(`${API_URL}/devices/${deviceId}/device-history`) .then(response => {
-    response.map(sensorData => { $('#historyContent').append(`
+  $.get(`${API_URL}/devices/${deviceId}/device-history`) .then((response) => {
+    response.map(sensorData => { 
+      $('#historyContent').append(`
     <tr>
     <td>${sensorData.ts}</td> 
     <td>${sensorData.temp}</td> 
@@ -26,16 +30,19 @@ $('#devices tbody tr').on('click', (e) => {
   });
 });
 })
-.catch(error => {console.error(`Error: ${error}`); 
+.catch((error) => {console.error(`Error: ${error}`); 
 });
 } else {
-  const path = window.location.pathname; if (path !== '/login') {
+  const path = window.location.pathname; 
+  if (path !== '/login') {
   location.href = '/login';
 } 
 }
 
- const response =$.get(` ${API_URL}/devices `) .then(response => {
-  response.forEach(device => { $('#devices tbody').append(`
+ $.get(` ${API_URL}/devices `) 
+ .then((response) => {
+  response.forEach((device) => { 
+    $('#devices tbody').append(`
   <tr> 
   <td>${device.user}</td> 
   <td>${device.name}</td>
@@ -47,30 +54,22 @@ $('#devices tbody tr').on('click', (e) => {
   console.error(`Error: ${error}`); 
 });
 
-
-const users = JSON.parse(localStorage.getItem('users')) || [];
-
-  //Iterate in userLogin
-users.forEach(function (user) { 
-  $('#users tbody').append(`
-  <tr>
-    <td>${user.user1}</td> 
-    <td>${user.password}</td>
-  </tr>`
-); });
-
   //Add device
 $('#add-device').on('click', () => { 
-  const name = $('#name').val(); const user = $('#user').val(); 
+  const name = $('#name').val(); 
+  const user = $('#user').val(); 
   const sensorData = [];
   const body = {
     name,
     user,
-    sensorData
+    sensorData,
   };
-$.post(` ${API_URL}/devices `, body) .then(response => {
-  location.href = '/'; })
-  .catch(error => { 
+
+$.post("` ${API_URL}/devices `", body) 
+.then((response) => {
+  location.href = '/'; 
+})
+  .catch((error) => { 
   console.error(`Error: ${error}`);
 }); 
 });
@@ -81,7 +80,8 @@ $.post(` ${API_URL}/devices `, body) .then(response => {
 });
 
 //Register
-$('#register').on('click', function() { 
+$('#add-user').on('click', function(e) {
+  e.preventDefault();
   const user1 = $('#LoginName').val();
   const password = $('#LoginPassword').val();
   const confirmpassword = $('#confirmpassword').val();
@@ -90,10 +90,10 @@ $('#register').on('click', function() {
     alert("Please make sure that password and confirmpassword are matched");
   }
   else{
-    $.post(`${API_URL}/authenticate`, { 
-      name: user2, 
-      password: password2,
-    }) .then((response) =>{
+    $.post(`${API_URL}/registration`, { 
+      name: user1, 
+      password: password,
+    }) .then((response) => {
       if (response.success) {
       location.href = '/login';
       } else {
@@ -105,7 +105,8 @@ $('#register').on('click', function() {
 
 //Login  
 
-$('#login').on('click', function() { 
+$('#login').on('click', function(e) { 
+  e.preventDefaut();
   const user2 = $('#user2').val();
   const password2= $('#password2').val();
 

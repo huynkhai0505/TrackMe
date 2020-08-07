@@ -1,6 +1,6 @@
 $('#navbar').load('navbar.html');
 
- const API_URL = 'http://localhost:5000/api';
+ const API_URL = 'mongodb+srv://huynhkhai1203:Quynhanh0505@cluster0.dyvnr.mongodb.net/test?retryWrites=true&w=majority';
 
  const currentUser = localStorage.getItem('user');
 if (currentUser) { 
@@ -80,8 +80,7 @@ $.post("` ${API_URL}/devices `", body)
 });
 
 //Register
-$('#add-user').on('click', function(e) {
-  e.preventDefault();
+$('#add-user').on('click', function() {
   const user1 = $('#LoginName').val();
   const password = $('#LoginPassword').val();
   const confirmpassword = $('#confirmpassword').val();
@@ -105,8 +104,7 @@ $('#add-user').on('click', function(e) {
 
 //Login  
 
-$('#login').on('click', function(e) { 
-  e.preventDefaut();
+$('#login').on('click', function() { 
   const user2 = $('#user2').val();
   const password2= $('#password2').val();
 

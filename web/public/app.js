@@ -2,6 +2,8 @@ $('#navbar').load('navbar.html');
 
  const API_URL = 'http://localhost:5000/api';
 
+ const MQTT_URL = 'http://localhost:5001/send-command';
+
  const currentUser = localStorage.getItem('user');
 
 if (currentUser) { 
@@ -75,10 +77,17 @@ $.post("` ${API_URL}/devices `", body)
   console.error(`Error: ${error}`);
 }); 
 });
-    
+
+  //Send Command
     $('#send-command').on('click', function() { 
         const command = $('#command').val(); 
+        const deviceId = $('#deviceid').val();
+        console.log(`deviceid is: ${deviceId}`);
         console.log(`command is: ${command}`);
+        
+        const body1 = { command, deviceId };
+        $.post(`${MQTT_URL}`, body1) ;
+  
 });
 
 //Register

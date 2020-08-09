@@ -88,9 +88,7 @@ return err
 : res.send('successfully added device and data');
 }); });
 
-app.post('/api/send-command', (req, res) => { 
-    console.log(req.body);
-});
+
 
 app.post('/api/authenticate', (req, res)=> {
     const { name, password } = req.body;

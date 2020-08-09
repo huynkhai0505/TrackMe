@@ -132,7 +132,6 @@ app.post('/api/registration', (req, res)=> {
             return res.json({
                 success: false,
                 message: "User has been registered",
-
             });
         }
         

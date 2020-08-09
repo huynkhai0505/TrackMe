@@ -1,8 +1,9 @@
 $('#navbar').load('navbar.html');
 
- const API_URL = 'mongodb+srv://huynhkhai1203:Quynhanh0505@cluster0.dyvnr.mongodb.net/test?retryWrites=true&w=majority';
+ const API_URL = 'http://localhost:5000/api';
 
  const currentUser = localStorage.getItem('user');
+
 if (currentUser) { 
   $.get(`${API_URL}/users/${currentUser}/devices`) 
 .then((response) => {
@@ -32,7 +33,8 @@ $('#devices tbody tr').on('click', (e) => {
 })
 .catch((error) => {console.error(`Error: ${error}`); 
 });
-} else {
+} 
+else {
   const path = window.location.pathname; 
   if (path !== '/login') {
   location.href = '/login';
